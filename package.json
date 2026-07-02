@@ -1,0 +1,31 @@
+{
+  "name": "check-ai-content-mcp",
+  "version": "0.1.0",
+  "description": "Lightweight MCP server for AI content detection (calls Naturalmelo public API).",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "check-ai-content-mcp": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "keywords": [
+    "mcp",
+    "ai-content-checker",
+    "ai-detection"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
