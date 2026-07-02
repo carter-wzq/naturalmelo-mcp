@@ -11,7 +11,10 @@ export type PatternHit = {
   humanizeHint: string;
 };
 
-/** Result from the AI content checker API. */
+/** Analysis mode. */
+export type CheckerMode = "general" | "academic";
+
+/** Full result from the checker. */
 export type CheckResult = {
   patternScore: number;
   naturalnessLabel: string;
@@ -19,18 +22,10 @@ export type CheckResult = {
   wordCount: number;
   hits: PatternHit[];
   createdAt: string;
-  sourceText: string;
-  mode: "general" | "academic";
 };
 
-/** Input parameters for the check_ai_content tool. */
+/** Input for the check_ai_content tool. */
 export type CheckInput = {
   text: string;
-  mode?: "general" | "academic";
-};
-
-/** Raw response shape from the Naturalmelo public API. */
-export type CheckApiResponse = CheckResult & {
-  share?: unknown;
-  error?: string;
+  mode?: CheckerMode;
 };

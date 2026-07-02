@@ -2,18 +2,17 @@
 
 ## What it does
 
-Analyzes text for AI-generated patterns and returns:
-- a 0–100 naturalness score
-- a list of flagged issues with excerpts and humanizing hints
+Analyzes text for AI-generated template patterns using built-in rules (no API key needed).
+Optionally runs an LLM pass with your own OpenAI key for better accuracy.
 
 ## Use when
 
-- You need to check whether a piece of text sounds AI-generated.
+- You need to check whether text sounds AI-generated.
 - You want specific revision hints to make text more natural.
 
 ## Input
 
-- `text` (required)
+- `text` (required) — minimum 20 characters
 - `mode` (optional: `general` | `academic`)
 
 ## Output
@@ -25,4 +24,5 @@ Analyzes text for AI-generated patterns and returns:
 
 ## Requirements
 
-No API key required. Calls the Naturalmelo public API.
+- No API key required (rule-based scan works offline).
+- Set `OPENAI_API_KEY` for LLM-powered analysis.

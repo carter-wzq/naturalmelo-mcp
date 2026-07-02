@@ -1,15 +1,20 @@
-# check-ai-content-mcp
+# naturalmelo-mcp
 
-Lightweight MCP server for AI content detection — calls the [Naturalmelo](https://www.naturalmelo.com) public API to analyze text for AI-generated patterns.
+Lightweight MCP server for AI content detection — detects AI-template patterns in text.
 
 One tool only:
 
 **`check_ai_content`**
 
+## How it works
+
+1. **Rule-based scan** (always runs, no API key needed) — 5 built-in pattern rules covering generic openings, hollow claims, filler transitions, stacked connectors, and marketing hype.
+2. **LLM scan** (optional, BYOK) — if `OPENAI_API_KEY` is set, a second pass with GPT-4o-mini catches subtler patterns and merges results with the rule scan.
+
 ## What it returns
 
 - **patternScore** (0–100) — higher = more AI-template patterns
-- **naturalnessLabel** — human-readable score tier ("Mostly natural" → "Strong AI writing signals")
+- **naturalnessLabel** — human-readable tier ("Mostly natural" → "Strong AI writing signals")
 - **hits** — list of flagged issues, each with:
   - `id`, `label`, `severity` (warn / fail)
   - `message` — what's wrong
@@ -24,24 +29,27 @@ npm install
 npm run build
 ```
 
-No API key required — uses the free Naturalmelo public endpoint.
+Works out of the box with zero configuration (rule-based scan only).
+Add `OPENAI_API_KEY` for better accuracy.
 
 ## Environment variables
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `CHECKER_API_BASE_URL` | `https://www.naturalmelo.com` | Override for self-hosted or local dev |
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `OPENAI_API_KEY` | No | — | Your OpenAI API key. Without it, only rule-based scan runs. |
+| `OPENAI_BASE_URL` | No | `https://api.openai.com/v1` | Custom OpenAI-compatible endpoint. |
+| `OPENAI_MODEL` | No | `gpt-4o-mini` | Model override. |
 
 ## MCP Config Example
 
 ```json
 {
   "mcpServers": {
-    "check-ai-content-mcp": {
+    "naturalmelo-mcp": {
       "command": "node",
-      "args": ["<ABSOLUTE_PATH>/check-ai-content-mcp/dist/index.js"],
+      "args": ["<ABSOLUTE_PATH>/naturalmelo-mcp/dist/index.js"],
       "env": {
-        "CHECKER_API_BASE_URL": "https://www.naturalmelo.com"
+        "OPENAI_API_KEY": "sk-your-key-here"
       }
     }
   }
@@ -58,11 +66,11 @@ No API key required — uses the free Naturalmelo public endpoint.
 ```
 
 - `text` (required) — minimum 20 characters
-- `mode` (optional) — `"general"` (default) or `"academic"` (scholarly writing, skips formal-vocab / hedging flags)
+- `mode` (optional) — `"general"` (default) or `"academic"`
 
 ## Notes
 
-- Public API enforces a daily rate limit per IP address.
-- 429 responses include a `Retry-After` header — the tool translates it into a human-readable message.
-- Academic mode treats formal vocabulary, hedging, and citations as normal — it focuses on templated structure and shallow content.
-- Never commit `CHECKER_API_BASE_URL` with secrets into git.
+- Rule-based scan runs locally — no network calls, no API keys.
+- LLM scan uses your own OpenAI key (BYOK) — you control usage and billing.
+- Academic mode skips connector-stacking and hype-flagging rules.
+- Never commit `.env` or API keys into git.

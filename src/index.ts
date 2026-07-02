@@ -9,7 +9,7 @@ import { checkAiContent } from "./tools/check-ai-content.js";
 
 const server = new Server(
   {
-    name: "check-ai-content-mcp",
+    name: "naturalmelo-mcp",
     version: "0.1.0",
   },
   {
@@ -24,9 +24,9 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
     {
       name: "check_ai_content",
       description:
-        "Analyze text for AI-generated patterns. Returns a naturalness score (0-100) and " +
-        "a list of flagged issues with excerpts and humanizing hints. " +
-        "Calls the Naturalmelo public API (no API key required).",
+        "Analyze text for AI-generated template patterns. " +
+        "Runs a built-in rule scanner (no API key needed). " +
+        "Optionally, set OPENAI_API_KEY for an LLM-powered second pass that merges with rule results.",
       inputSchema: {
         type: "object",
         properties: {
@@ -37,7 +37,8 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
           mode: {
             type: "string",
             enum: ["general", "academic"],
-            description: "Analysis mode: 'general' for blog/marketing copy, 'academic' for scholarly writing.",
+            description:
+              "Analysis mode: 'general' for blog/marketing copy, 'academic' for scholarly writing.",
           },
         },
         required: ["text"],
