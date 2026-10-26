@@ -38,7 +38,7 @@ Add `OPENAI_API_KEY` for better accuracy.
 |----------|----------|---------|-------------|
 | `OPENAI_API_KEY` | No | — | Your OpenAI API key. Without it, only rule-based scan runs. |
 | `OPENAI_BASE_URL` | No | `https://api.openai.com/v1` | Custom OpenAI-compatible endpoint. |
-| `OPENAI_MODEL` | No | `gpt-4o-mini` | Model override. |
+| `OPENAI_MODEL` | No | `gpt-6-luna` | Model override. |
 
 ## MCP Config Example
 

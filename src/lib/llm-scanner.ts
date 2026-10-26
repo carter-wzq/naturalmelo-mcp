@@ -95,7 +95,7 @@ export async function scanWithLlm(
   if (!apiKey) return null;
 
   const baseUrl = process.env.OPENAI_BASE_URL?.trim() || "https://api.openai.com/v1";
-  const model = process.env.OPENAI_MODEL?.trim() || "gpt-4o-mini";
+  const model = process.env.OPENAI_MODEL?.trim() || "gpt-6-luna";
 
   try {
     const response = await fetch(`${baseUrl}/chat/completions`, {
